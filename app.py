@@ -1,7 +1,4 @@
 from flask import Flask, render_template, request
-from fastai.vision.all import *
-from fastai.vision import *
-from fastai import *
 from PIL import Image 
 import sys
 import pathlib
@@ -16,7 +13,6 @@ if sys.platform == "win32":
 
 app = Flask(__name__)
 
-vision_model = load_learner('./model/homer_bart_classifier.pkl')
 insurance_model = load_model('./model/insurance_gbr_model') 
 
 # Route for the insurance form page (GET request)
@@ -30,10 +26,6 @@ def test():
 def home():
     return render_template('insurance.html')
 
-# Route for the image classify page (GET request)
-@app.route('/image_classify', methods=['GET'])
-def bart():
-    return render_template('image.html')
 
 # Route for form submission (POST request)
 @app.route('/insurance_predict', methods=['POST'])
@@ -49,13 +41,7 @@ def process_form():
     result = predict_model(insurance_model, data=data)  
     return render_template('result.html', result=result.values[0][6])
 
-# Route for uploading an image (POST request)
-@app.route('/classify', methods=['POST'])
-def upload_image():
-    img = Image.open(request.files['input_image'].stream)
-    img = tensor(img)  # converts the image to tensor.
-    result = vision_model.predict(img)[0].capitalize()
-    return render_template('result.html', result=result)
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
