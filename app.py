@@ -21,7 +21,7 @@ insurance_model = load_model('./model/insurance_gbr_model')
 
 # Route for the insurance form page (GET request)
 @app.route('/test', methods=['GET'])
-def home():
+def test():
     return "hello world"
 
 
