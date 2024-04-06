@@ -19,6 +19,11 @@ app = Flask(__name__)
 vision_model = load_learner('./model/homer_bart_classifier.pkl')
 insurance_model = load_model('./model/insurance_gbr_model') 
 
+# Route for the insurance form page (GET request)
+@app.route('/test', methods=['GET'])
+def home():
+    return "hello world"
+
 
 # Route for the insurance form page (GET request)
 @app.route('/', methods=['GET'])
